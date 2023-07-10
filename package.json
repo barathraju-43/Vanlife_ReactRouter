@@ -1,0 +1,23 @@
+{
+  "name": "vanlife",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-router-dom": "6.4.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "*",
+    "miragejs": "^0.1.47",
+    "vite": "latest"
+  },
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  }
+}
