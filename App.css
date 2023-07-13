@@ -414,3 +414,21 @@ i[class*="van-type-"] {
   font-weight: 600;
   text-decoration: underline;
 }
+
+.host-one-van-detail-info {
+  padding: 10px;
+}
+.host-one-van-detail-info p span {
+  font-weight: 600;
+}
+
+.hostDetail-photo {
+  margin: 15px;
+  width: 100px;
+  border-radius: 5px;
+}
+
+.host-van-pricing p span {
+  font-size: 20px;
+  font-weight: 600;
+}

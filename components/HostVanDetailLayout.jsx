@@ -10,7 +10,7 @@ export default function HostVanDetailLayout(){
     }
 
     const params = useParams();
-    const [currVanDetail, setCurrVanDetail] = useState([])
+    const [currVanDetail, setCurrVanDetail] = useState(null)
 
     useEffect(() => {
         fetch(`/api/host/vans/${params.id}`)
@@ -40,7 +40,7 @@ export default function HostVanDetailLayout(){
                 <NavLink to="pricing" style={({isActive}) => isActive ? activeLink : null}>Pricing</NavLink>
                 <NavLink to="photos" style={({isActive}) => isActive ? activeLink : null}>Photos</NavLink>
             </nav> 
-            <Outlet />
+            <Outlet context={{ currVanDetail }}/>
         
         </div>
         </div>

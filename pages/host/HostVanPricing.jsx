@@ -1,7 +1,11 @@
 import React from "react";
+import { useOutletContext } from "react-router-dom"
 
 export default function HostVanPricing(){
+    const {currVanDetail} = useOutletContext();
     return(
-        <h1>Van pricing goes here</h1>
+        <div className="host-van-pricing">
+            <p><span>${currVanDetail.price}</span>/day</p>
+        </div>
     )
 }
