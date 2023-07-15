@@ -453,3 +453,24 @@ i[class*="van-type-"] {
 .back-button span:hover {
   text-decoration: underline;
 }
+
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 100px;
+}
+
+.return-home {
+  text-decoration: none;
+  height: 50px;
+  background-color: #161616;
+  color: white;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+}
