@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, NavLink, useParams } from 'react-router-dom';
+import { Outlet, Link, NavLink, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 export default function HostVanDetailLayout(){
@@ -23,7 +23,7 @@ export default function HostVanDetailLayout(){
     }
     return(
         <div className="host-van-detail-root">
-        <NavLink to=".." relative="path">&#x2190; Back to all vans</NavLink>
+        <Link to=".." relative="path">&#x2190; <span>Back to all vans</span></Link>
         <div className="host-van-detail-parent">
            
            <div key={currVanDetail.id} className="host-van-detail-container">
