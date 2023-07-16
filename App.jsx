@@ -2,12 +2,17 @@ import "./server"
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom"
+import { 
+  createRoutesFromElements,
+  RouterProvider,
+  createBrowserRouter,
+  Route 
+} from "react-router-dom"
 import Layout from './components/Layout'
 
 import Home from "./pages/Home"
 import About from "./pages/About"
-import Vanslist from './pages/vans/Vanslist';
+import Vanslist, { loader as vansListLoader } from './pages/vans/Vanslist';
 import VanDetail from './pages/vans/VanDetail';
 import Dashboard from './pages/host/Dashboard';
 import Income from './pages/host/Income';
@@ -20,15 +25,11 @@ import HostVanPhotos from "./pages/host/HostVanPhotos";
 import HostVanPricing from "./pages/host/HostVanPricing";
 import NotFound from "./pages/NotFound";
 
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
+const routings = createBrowserRouter(createRoutesFromElements(
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="vans" element={<Vanslist />} />
+          <Route path="vans" element={<Vanslist />} loader={vansListLoader}/>
           <Route path="vans/:id" element={<VanDetail />} />
           <Route path="host" element={<HostLayout />} >
             <Route index element={<Dashboard />} />
@@ -43,8 +44,11 @@ function App() {
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
+))
+
+function App() {
+  return (
+    <RouterProvider router={routings} />
   )
 }
 
