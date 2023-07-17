@@ -24,12 +24,15 @@ import HostVanDetailLayout from "./components/HostVanDetailLayout";
 import HostVanPhotos from "./pages/host/HostVanPhotos";
 import HostVanPricing from "./pages/host/HostVanPricing";
 import NotFound from "./pages/NotFound";
+import Error from "./components/Error";
+import Login from "./pages/Login";
 
 const routings = createBrowserRouter(createRoutesFromElements(
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Layout /> } >
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
-          <Route path="vans" element={<Vanslist />} loader={vansListLoader}/>
+          <Route path="vans" element={<Vanslist />} errorElement={<Error />} loader={vansListLoader} />
+          <Route path="login" element={<Login />} errorElement={<Error />} loader={vansListLoader} />
           <Route path="vans/:id" element={<VanDetail />} />
           <Route path="host" element={<HostLayout />} >
             <Route index element={<Dashboard />} />
