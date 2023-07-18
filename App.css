@@ -536,3 +536,7 @@ header .login-icon {
   height: 18px;
   width: 18px;
 }
+
+.red {
+  color: red;
+}

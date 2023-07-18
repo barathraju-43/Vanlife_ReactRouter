@@ -1,16 +1,16 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { useParams, Link, useLocation } from "react-router-dom";
-export default function VanDetail(){
-    const params = useParams();
-    const location = useLocation();
-    const [van, setVan] = useState(null)
+import { Link, useLocation, useLoaderData } from "react-router-dom";
+import { getVans }from "../../api";
+import { requireAuth } from "../../utils";
 
-    useEffect(() => {
-        fetch(`/api/vans/${params.id}`)
-            .then(res => res.json())
-            .then(data => setVan(data.vans))
-    }, [params.id])
+export async function loader({ params }){
+    await requireAuth();
+    return getVans(params.id);
+}
+
+export default function VanDetail(){
+    const location = useLocation();
+    const van = useLoaderData();
 
     const search = location.state?.search || ""; //optional chaining
     // const filteredType = search.split("=")[1] // 1 way of getting the type of filter
@@ -19,7 +19,6 @@ export default function VanDetail(){
     return (
         <div className="van-detail-container">
             <Link to={`..${search}`} relative="path" className="back-button">&#x2190; <span>Back to {filteredType} vans</span></Link>
-            {van ? (
                 <div className="van-detail">
                     <img src={van.imageUrl} />
                     <i className={`van-type ${van.type} selected`}>{van.type}</i>
@@ -28,7 +27,7 @@ export default function VanDetail(){
                     <p>{van.description}</p>
                     <button className="link-button">Rent this van</button>
                 </div>
-            ) : <h2>Loading...</h2>}
         </div>
     )
 }
+

@@ -1,6 +1,12 @@
 import React from "react";
-import { Outlet, Link, NavLink, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Outlet, Link, NavLink, useLoaderData } from 'react-router-dom';
+import { getHostVans } from "../api";
+import { requireAuth } from "../utils";
+
+export async function loader({ params }){
+    await requireAuth();
+    return getHostVans(params.id);
+}
 
 export default function HostVanDetailLayout(){
     const activeLink = {
@@ -9,18 +15,8 @@ export default function HostVanDetailLayout(){
         color: "#161616"
     }
 
-    const params = useParams();
-    const [currVanDetail, setCurrVanDetail] = useState(null)
+    const currVanDetail = useLoaderData();
 
-    useEffect(() => {
-        fetch(`/api/host/vans/${params.id}`)
-        .then(res => res.json())
-        .then(data => setCurrVanDetail(data.vans))
-    }, [params.id])
-
-    if (!currVanDetail) {
-        return <h1>Loading...</h1>
-    }
     return(
         <div className="host-van-detail-root">
         <Link to=".." relative="path">&#x2190; <span>Back to all vans</span></Link>

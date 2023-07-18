@@ -85,6 +85,7 @@ createServer({
 
     this.get("/vans/:id", (schema, request) => {
       const id = request.params.id;
+      // return new Response(400, {}, { error: "error finding vans" });
       return schema.vans.find(id);
     });
 

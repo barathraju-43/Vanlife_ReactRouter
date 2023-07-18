@@ -1,16 +1,15 @@
 import React from "react"
-import { useState, useEffect } from "react";
 import { Link, useLoaderData, useSearchParams } from 'react-router-dom'
 import { getVans } from "../../api"
+import { requireAuth } from "../../utils";
 
-export function loader(){
-    return getVans();
+export async function loader(){
+    await requireAuth();
+    return getVans()
 }
 
 export default function Vanslist() {
     const [searchParams, setSearchParams] = useSearchParams();
-    const [error, setError] = useState(null);
-    
     const vanTypeFilter = searchParams.get('type');
 
     const vans = useLoaderData();
@@ -40,10 +39,6 @@ export default function Vanslist() {
         </div>
     ))
     
-    if (error) {
-        return <h1>There was an error: {error.message}</h1>
-    }
-
     return (
         <div className="van-list-container">
             <h1>Explore our van options</h1>
