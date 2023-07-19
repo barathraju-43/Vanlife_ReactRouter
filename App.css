@@ -532,6 +532,11 @@ i[class*="van-type-"] {
   width: 100%;
 }
 
+.login-form-input > button:disabled {
+  background-color: #aaaaaa;
+  cursor: not-allowed;
+}
+
 header .login-icon {
   height: 18px;
   width: 18px;

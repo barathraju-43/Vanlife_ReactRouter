@@ -1,54 +1,53 @@
 import React from "react";
 import { useState } from "react"
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import { loginUser } from "../api";
 
 export function loader({request}){
     return new URL(request.url).searchParams.get('message');
 }
 
+export async function action({ request }){
+    const loginFormData = await request.formData();
+    const email = loginFormData.get("email")
+    const password = loginFormData.get("password")
+    const path = new URL(request.url).searchParams.get('redirectTo') || "/host";
+    try{
+    const data = await loginUser({ email, password })
+    localStorage.setItem("loggedIn", true);
+    return redirect(path);
+    }catch(err){
+        return err.message;
+    }
+}
+
 export default function Login(){
     const authMsg = useLoaderData();
-    console.log(authMsg);
-    const [loginData, setLoginData] = useState({
-        email: "",
-        password: ""
-    })
-
-    function handleChange(event) {
-        const { name, value } = event.target;
-        return setLoginData(prevData => ({
-           ...prevData,
-           [name]: value
-        })) 
-    }
-
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(loginData);
-    }
+    const error = useActionData();
+    const navigation = useNavigation();
+    const status = navigation.state;
 
     return(
         <div className="login-form-container">
             <h1>Login to your account</h1>
             { authMsg && <h3 className="red">{authMsg}</h3>}
-            <form onSubmit={handleSubmit} className="login-form-input">
+            { error && <h3 className="red">{error}</h3>}
+            <Form method="post" className="login-form-input" replace>
                 <input
                     type="email"
                     name="email"
-                    onChange={handleChange}
                     placeholder="Enter your email"
-                    value={loginData.email}
                 />
                 <input
                     type="password"
                     name="password"
-                    onChange={handleChange}
                     placeholder="Enter your password"
-                    value={loginData.password}                
                 />
-                <button>Login</button>
+                <button disabled={status === 'submitting'}>
+                    {status === 'submitting' ? "Logging in..." : "Log in"}
+                </button>
                 <h5>Don't have account? <span>Create an account</span></h5>
-            </form>
+            </Form>
         </div>
     )
 }
