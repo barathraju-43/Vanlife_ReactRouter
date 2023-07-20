@@ -1,11 +1,11 @@
 import React from "react";
-import { Outlet, Link, NavLink, useLoaderData } from 'react-router-dom';
+import { Outlet, Link, NavLink, useLoaderData, defer, Await } from 'react-router-dom';
 import { getHostVans } from "../api";
 import { requireAuth } from "../utils";
 
 export async function loader({ params, request }){
     await requireAuth(request);
-    return getHostVans(params.id);
+    return defer({currVanDetail: getHostVans(params.id)});
 }
 
 export default function HostVanDetailLayout(){
@@ -15,12 +15,11 @@ export default function HostVanDetailLayout(){
         color: "#161616"
     }
 
-    const currVanDetail = useLoaderData();
+    const currVanDetailPromise = useLoaderData();
 
-    return(
-        <div className="host-van-detail-root">
-        <Link to=".." relative="path">&#x2190; <span>Back to all vans</span></Link>
-        <div className="host-van-detail-parent">
+    function renderHostVanDetail(currVanDetail){
+        return (
+            <div className="host-van-detail-parent">
            
            <div key={currVanDetail.id} className="host-van-detail-container">
                 
@@ -39,6 +38,16 @@ export default function HostVanDetailLayout(){
             <Outlet context={{ currVanDetail }}/>
         
         </div>
+        )
+    }
+    return(
+        <div className="host-van-detail-root">
+        <Link to=".." relative="path">&#x2190; <span>Back to all vans</span></Link>
+        <React.Suspense fallback={<h2>Loading host van details...</h2>}>
+            <Await resolve={currVanDetailPromise.currVanDetail}>
+                {renderHostVanDetail}
+            </Await>
+        </React.Suspense>
         </div>
     )
 }

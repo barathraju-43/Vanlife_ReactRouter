@@ -27,7 +27,7 @@ import NotFound from "./pages/NotFound";
 import Error from "./components/Error";
 import Login, {loader as loginLoader, action as loginAction } from "./pages/Login";
 import { requireAuth } from "./utils";
-localStorage.removeItem("loggedIn");
+// localStorage.removeItem("loggedIn");
 const routings = createBrowserRouter(createRoutesFromElements(
         <Route path="/" element={<Layout /> } >
           <Route index element={<Home />} />
@@ -39,8 +39,8 @@ const routings = createBrowserRouter(createRoutesFromElements(
             <Route index element={<Dashboard />} loader={async ({request}) => await requireAuth(request)} />
             <Route path="reviews" element={<Reviews />} loader={async ({request}) => await requireAuth(request)} />
             <Route path="income" element={<Income />} loader={async ({request}) => await requireAuth(request)} />
-            <Route path="vans" element={<HostVans />} loader={hostVansLoader}/>
-            <Route path="vans/:id" element={<HostVanDetailLayout />} loader={hostVanDetailsLoader} >
+            <Route path="vans" element={<HostVans />} errorElement={<Error />} loader={hostVansLoader}/>
+            <Route path="vans/:id" element={<HostVanDetailLayout />} errorElement={<Error />} loader={hostVanDetailsLoader} >
               <Route index element={<HostVanDetails />} loader={async ({request}) => await requireAuth(request)}/>
               <Route path="photos" element={<HostVanPhotos />} loader={async ({request}) => await requireAuth(request)} />
               <Route path="pricing" element={<HostVanPricing />} loader={async ({request}) => await requireAuth(request)} />
